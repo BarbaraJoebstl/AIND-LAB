@@ -120,7 +120,43 @@ def breadthFirstSearch(problem):
     [2nd Edition: p 73, 3rd Edition: p 82]
     """
     "*** YOUR CODE HERE ***"
-    util.raiseNotDefined()
+    # dictionary with nodes already visited
+    explored = {}
+    # Queue for elements at the "frontier" of the tree
+    frontier = util.Queue()
+    # current position
+    state = problem.getStartState()
+    # node, so we can always get the parent node
+    node = {}
+    node['parent'] = None
+    node['action'] = None
+    node['state'] = state
+
+    frontier.push(node)
+    while not frontier.isEmpty():
+        node = frontier.pop()
+        state = node['state']
+        if explored.has_key(state):
+            continue
+
+        explored[state] = True
+        if problem.isGoalState(state):
+            break
+
+        for child_node in problem.getSuccessors(state):
+            if child_node[0] not in explored:
+                # child_node[0]: state
+                sub_node = {}
+                sub_node['parent'] = node
+                sub_node['state'] = child_node[0]
+                sub_node['action'] = child_node[1]
+                frontier.push(sub_node)
+    actions_to_reach_goal = []
+    while node['action'] != None:
+        actions_to_reach_goal.insert(0, node['action'])
+        node = node['parent']
+
+    return actions_to_reach_goal
 
 
 def uniformCostSearch(problem):
