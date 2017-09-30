@@ -151,6 +151,7 @@ def breadthFirstSearch(problem):
                 sub_node['state'] = child_node[0]
                 sub_node['action'] = child_node[1]
                 frontier.push(sub_node)
+
     actions_to_reach_goal = []
     while node['action'] != None:
         actions_to_reach_goal.insert(0, node['action'])
@@ -160,9 +161,51 @@ def breadthFirstSearch(problem):
 
 
 def uniformCostSearch(problem):
-    "Search the node of least total cost first. "
+    "Search the node of least total cost first."
     "*** YOUR CODE HERE ***"
-    util.raiseNotDefined()
+    # work similar to BFS, but we additionaly check the total cost for each
+    # path and select the path with the lowest cost
+    frontier = util.PriorityQueue()
+    explored = {}
+    state = problem.getStartState()
+    node = {}
+    node['parent'] = None
+    node['action'] = None
+    node['state'] = state
+    node['cost'] = 0
+
+    # we want to prioritize the queue by cost, as we always want to take the
+    # lowest cost
+    frontier.push(node, node['cost'])
+
+    while not frontier.isEmpty():
+        node = frontier.pop()
+        state = node['state']
+        cost = node['cost']
+
+        if explored.has_key(state):
+            continue
+
+        explored[state] = True
+        if problem.isGoalState(state) is True:
+            break
+
+        for child_node in problem.getSuccessors(state):
+            if child_node[0] not in explored:
+                # child_node[0]: state
+                sub_node = {}
+                sub_node['parent'] = node
+                sub_node['state'] = child_node[0]
+                sub_node['action'] = child_node[1]
+                sub_node['cost'] = child_node[2] + cost
+                frontier.push(sub_node, sub_node['cost'])
+
+    actions_to_reach_goal = []
+    while node['action'] != None:
+        actions_to_reach_goal.insert(0, node['action'])
+        node = node['parent']
+
+    return actions_to_reach_goal
 
 
 def nullHeuristic(state, problem=None):
@@ -176,7 +219,55 @@ def nullHeuristic(state, problem=None):
 def aStarSearch(problem, heuristic=nullHeuristic):
     "Search the node that has the lowest combined cost and heuristic first."
     "*** YOUR CODE HERE ***"
-    util.raiseNotDefined()
+    # in order to get the "best estimated total path cost first" this
+    # algorithm works like the uniform cost search and add a heuristic(estimated_distance_to_goal)
+    # f = path_cost + estimated_distance_to_goal
+    # f = g + h
+    frontier = util.PriorityQueue()
+    explored = {}
+    state = problem.getStartState()
+    node = {}
+    node['parent'] = None
+    node['action'] = None
+    node['state'] = state
+    node['cost'] = 0
+    node['estimation'] = heuristic(state, problem)
+
+    # we want to prioritize the queue by cost, as we always want to take the
+    # lowest cost
+    frontier.push(node, node['cost'] + node['estimation'])
+
+    while not frontier.isEmpty():
+        node = frontier.pop()
+        state = node['state']
+        cost = node['cost']
+        estimation = node['estimation']
+
+        if explored.has_key(state):
+            continue
+
+        explored[state] = True
+        if problem.isGoalState(state) is True:
+            break
+
+        for child_node in problem.getSuccessors(state):
+            if child_node[0] not in explored:
+                # child_node[0]: state
+                sub_node = {}
+                sub_node['parent'] = node
+                sub_node['state'] = child_node[0]
+                sub_node['action'] = child_node[1]
+                sub_node['cost'] = child_node[2] + cost
+                sub_node['estimation'] = heuristic(sub_node['state'], problem)
+                frontier.push(sub_node, sub_node['cost'] + node['estimation'])
+
+    actions_to_reach_goal = []
+    while node['action'] != None:
+        actions_to_reach_goal.insert(0, node['action'])
+        node = node['parent']
+
+    return actions_to_reach_goal
+
 
 
 # Abbreviations
