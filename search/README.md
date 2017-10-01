@@ -23,4 +23,12 @@ No
 ## A * Search
 python pacman.py -l bigMaze -z .5 -p SearchAgent -a fn=astar,heuristic=manhattanHeuristic 
 
+## TODO
+- implement a search with the corners problem with a corners heuristic.
+- implement A*FoodSearchAgent
+- implement a heuristic for the A*FoodSearchAgent
+
+## License
+This project can only be used to learning search algorithm in AI.
+This project is not allowed for any business use.
 
