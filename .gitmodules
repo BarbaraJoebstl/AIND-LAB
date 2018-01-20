@@ -1,0 +1,21 @@
+[submodule "search"]
+	path = search
+	url = 
+[submodule "constraint_satisfaction"]
+	path = constraint_satisfaction
+	url = 	
+[submodule "simulated_annelealing"]
+	path = simulated_annelealing
+	url = 		
+[submodule "aind2-dl"]
+	path = aind2-dl
+	url = https://github.com/BarbaraJoebstl/AIND-LAB-Keras.git
+[submodule "aind2-cnn"]
+	path = aind2-cnn
+	url = https://github.com/BarbaraJoebstl/AIND-LAB-CNN	
+[submodule "AIND_CV_MIMIC"]
+	path = AIND_CV_MIMIC
+	url = https://github.com/BarbaraJoebstl/AIND_CV_MIMIC	
+[submodule "COMPUTER-VISION-LAB"]
+	path = COMPUTER-VISION-LAB
+	url = https://github.com/BarbaraJoebstl/COMPUTER-VISION-LAB
